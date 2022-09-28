@@ -9,6 +9,7 @@ module.exports = defineConfig({
   runtimeCompiler: true, //关键点在这,
   devServer:{
     open:true,
+    host:'localhost',
     port:9000,
     https: false,
     proxy:{

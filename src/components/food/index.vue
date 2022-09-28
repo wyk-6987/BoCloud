@@ -1,5 +1,5 @@
 <template>
-  <div id="wrap">
+  <div v-if="showcurrent" id="wrap">
     <h2>简单的number、string:</h2>
     <el-form>
       <el-form-item label="美食名称：">
@@ -58,20 +58,27 @@
         <li><h3>对象类型的数组在发生改变式可以使用（）=》state.key的形式作为第一个参数，但是deep要手动改为true才可以监听得到</h3></li>
       </ol>
     </div>
-  </div>
   <div>计算属性得到的新的值{{newname1}}</div>
   <el-button style="float: right;margin-right: 100px"  @click="add" type="primary">下一步</el-button>
+  </div>
+  <div v-if="!showcurrent">
+    <tabs></tabs>
+  </div>
 </template>
 
 <script>
 import {computed, reactive, ref, toRefs, watch, watchEffect} from 'vue'
+import tabs from "@/components/food/tabs";
+import Tabs from "@/components/food/tabs";
 export default {
   name: "FOOD",
+  components: {Tabs},
   setup(){
     const name = ref('');
     const adress = ref('');
     const number = ref('');
     const testnumber = ref('');
+    const showcurrent = ref(true);
     watch(name,()=>{
       console.log('名字正在发生改变');
     })
@@ -101,6 +108,7 @@ export default {
     })
    const add = () => {
      state.arr1.push('泡妹子');
+     showcurrent.value = false;
    }
 
     watch(()=>state.newname, () => {
@@ -118,7 +126,7 @@ export default {
 
     const newname1 = computed(()=>state.newname+'是个好地方');
 
-    return {name, adress, number, testnumber, ...toRefs(state), add, newname1}
+    return {name, adress, number, testnumber, ...toRefs(state), add, newname1, showcurrent}
   }
 }
 </script>
